@@ -1,0 +1,29 @@
+if r.status_code == 200:  # Check for successful response
+        site = BeautifulSoup(r.content, 'html.parser')
+
+        # ENCONTRAR OS RESULTADOS
+
+        descricoes = site.find_all('h2', class_='poly-box poly-component__title')
+        precos = site.find_all('span', class_='andes-money-amount__fraction')
+        links = site.find_all('a', class_='poly-box poly-component__title')
+        # VERIFICAR FIM
+
+        if not descricoes:
+            print(f'Nenhum item encontrado na página {start}')
+            break
+
+        # CAPTURAR DADOS
+
+        for descricao, preco, link in zip(descricoes, precos, links):
+            print(descricao.get_text())
+            print(preco.get_text())
+            #print(f'\033[34mLINK : {link.get("href")}\n')  # Uncomment to print links
+
+        #start += 50  # Increment start for next page
+    else:
+        print(f'Erro ao acessar a página {start}')
+        break  # Exit loop on response error
+
+print('Raspagem concluída.')
+
+'''
